@@ -1,3 +1,13 @@
+# Django files
+
+# temporary sqlite db
+*.sqlite
+*.sqlite3
+
+# local settings file
+gola/gola/settings/local.py
+
+
 # https://github.com/github/gitignore/blob/master/Python.gitignore
 
 __pycache__/

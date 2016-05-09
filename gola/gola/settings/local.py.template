@@ -1,0 +1,9 @@
+#!/usr/bin/env python2.7
+
+import os
+
+SECRET_KEY = 'afjdslkfoewiqurfdlsajflkadjfdklajg;ljfdkjka;l'
+
+DEBUG = True
+
+ALLOWED_HOSTS = []
