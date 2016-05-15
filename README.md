@@ -1,6 +1,6 @@
 # gola
 
-## Install
+## Install Python environment
 
 Using `virtualenvwrapper` is recommended.
 
@@ -16,9 +16,15 @@ Then, whenever you work on this project:
 workon gola
 ```
 
+## Install MongoDB
+
+- Ubuntu: <https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/>
+- OS X: <https://docs.mongodb.com/v3.0/tutorial/install-mongodb-on-os-x/>
+
 ## Local settings
 
 If you need to add machine-dependent settings like db password,
+DO NOT modify `base.py` directly. Instead,
 
 ```
 cd gola/gola/settings
