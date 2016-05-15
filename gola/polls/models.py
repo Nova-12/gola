@@ -1,5 +1,7 @@
 from __future__ import unicode_literals
 
-from django.db import models
+from django.conf import settings
+from pymongo import MongoClient
 
-# Create your models here.
+client = MongoClient(settings.PYMONGO_DATABASE_URI)
+db = client[settings.PYMONGO_DATABASE_NAME]

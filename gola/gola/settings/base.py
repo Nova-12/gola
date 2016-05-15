@@ -27,6 +27,9 @@ DEBUG = False
 
 ALLOWED_HOSTS = []
 
+# PyMongo database connection
+PYMONGO_DATABASE_URI = 'mongodb://localhost:27017/'
+PYMONGO_DATABASE_NAME = 'gola'
 
 # Application definition
 
