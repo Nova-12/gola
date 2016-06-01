@@ -60,3 +60,6 @@ def get(request, poll_id):
     if not poll:
         raise Http404("Poll does not exist")
     return HttpResponse(poll.json())
+
+def question(request):
+    return render(request, 'question/questions.html')
