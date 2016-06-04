@@ -1,0 +1,57 @@
+* {
+    padding:0;
+    margin:0;
+}
+
+html{
+    font:14px normal Arial, sans-serif;
+    color:#626771;
+    background-color:#fff;
+}
+
+body{
+    padding:60px;
+    text-align: center;
+}
+
+ul[id=questiontabs]{
+    list-style:none;
+    display: inline-block;
+}
+
+ul li[id=questiontab]{
+    display: inline-block;
+    padding: 10px 40px;
+    cursor:pointer;
+    background-color:#eee;
+    color:#7B8585;
+    
+    transition:0.3s;
+}
+
+ul li[id=questiontab]:hover{
+    background-color:#beecea;
+}
+
+ul li[id=questiontab].focused{
+    color:#fff;
+    background-color:#002266;
+}
+
+input[id=question] {
+    width: 70%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    border: none;
+    border-bottom: 4px solid #002b80;
+    font-size:20px;
+}
+
+input[id=question]:focus {
+    outline: none;
+}
+
+p{
+    padding-top:15px;
+    font-size:12px;
+}

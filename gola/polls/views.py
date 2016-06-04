@@ -62,4 +62,6 @@ def get(request, poll_id):
     return HttpResponse(poll.json())
 
 def question(request):
-    return render(request, 'question/questions.html')
+	#return render(request, 'question/questions.html')
+    #return render(request, 'polls/question/question.html')
+	return render(request, 'polls/question/index.html')

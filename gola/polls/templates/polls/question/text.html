@@ -1,0 +1,9 @@
+<form action="demo_form.asp" method="post">
+    {% csrf_token %}
+	<!--{{ form.as_p }}-->
+    Enter your question:<br>
+	<input type="text" name="firstname"><br>
+	Last name:<br>
+	<input type="text" name="lastname">
+</form>
+
