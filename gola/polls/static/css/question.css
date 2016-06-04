@@ -55,3 +55,81 @@ p{
     padding-top:15px;
     font-size:12px;
 }
+
+button[id=deleteopt] {
+    background-image: url( '../images/DeleteButton.png');
+    background-size: 20px 20px;
+    border: 0;
+    border-radius: 50%;
+    height: 20px;  
+    width: 20px;
+    margin-left: 100px;
+}
+
+button[id=deleteopt]:hover {
+    background-image: url( '../images/DeleteButton_hover.png');
+    background-size: 20px 20px;
+    border: 0;
+    border-radius: 50%;
+    height: 20px;  
+    width: 20px;
+    cursor: pointer;
+}
+button[id=deleteopt]:focus {
+    outline: none;
+}
+
+button[id=addopt] {
+    background-image: url( '../images/AddButton.png');
+    background-size: 20px 20px;
+    border: 0;
+    border-radius: 50%;
+    height: 20px;  
+    width: 20px;
+    margin-left: 0px;
+}
+
+button[id=addopt]:hover {
+    background-image: url( '../images/AddButton_hover.png');
+    background-size: 20px 20px;
+    border: 0;
+    border-radius: 50%;
+    height: 20px;  
+    width: 20px;
+    cursor: pointer;
+}
+button[id=addopt]:focus {
+    outline: none;
+}
+
+input[id=option] {
+    width: 40%;
+    padding: 10px 18px;
+    margin: 8px 0;
+    border: none;
+    border-bottom: 2px solid #006699;
+    font-size:15px;
+}
+
+input[id=option]:focus {
+    border-bottom: 2px solid #003366;
+    outline: none;
+}
+
+ul[id=options]{
+    list-style:none;
+    display: block;
+    align-items: center;
+    list-style-position: inside;
+}
+
+ul li[id=option]{
+    display: inline-block;
+    width: 70%;
+    padding: 10px 40px;
+    background-color:#fff;
+    color:#000;
+    font-size: 15px;
+    text-align: left;
+}
+
