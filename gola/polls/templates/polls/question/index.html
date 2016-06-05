@@ -11,14 +11,42 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
     {% load staticfiles %}
 	<link rel="stylesheet" type="text/css" href="{% static "css/question.css" %}"></link>
+	<link rel="stylesheet" type="text/css" href="{% static "css/image.css" %}"></link>
   </head>
   <body>
     <div id="content"></div>
     <script type="text/babel">
+
+    var Questions = React.createClass({
+    	getInitialState: function(){
+    		return{ questions: []};
+    	},
+    	addQuestion: function(){
+    		console.log("Question added");
+    		var newQuestions = this.state.questions.slice();
+	    	console.log(this.refs.newQuestion);
+	    	this.setState({questions: newQuestions});
+	    	this.refs.newQuestion.refresh();
+    	},
+    	render: function(){
+    		return (
+    			<div>
+    				<MenuExample ref="newQuestion" items={ ['TEXT', 'IMAGE', 'IMAGE TAGGING', 'VIDEO', 'CALENDAR', 'MAP'] } />
+    				<button onClick={this.addQuestion}>Next Question</button>
+    			</div>
+    		);
+    	}
+    });
+
 	var MenuExample = React.createClass({
 
 	    getInitialState: function(){
 	        return { focused: 0 };
+	    },
+
+	    refresh: function(){
+	    	this.setState(this.getInitialState());
+	    	this.refs.content.refresh();
 	    },
 
 	    clicked: function(index){
@@ -59,36 +87,52 @@
 	                }) }
 	                        
 	                </ul>
-	                <br/><br/><Content currentTab={this.state.focused}/>
+	                <br/><br/><Content ref="content" currentTab={this.state.focused}/>
 	            </div>
 	        );
 	    }
 	});
 	var Content = React.createClass({
+		refresh: function(){
+			switch(this.props.currentTab) {
+			    case 0:
+			        this.refs.text.refresh();
+			        break;
+			    case 1:
+			        this.refs.image.refresh();
+			        break;
+			    case 2:
+			        this.refs.tagimage.refresh();
+			        break;
+			    case 3:
+			        this.refs.video.refresh();
+			        break;
+			}
+		},
 	    render: function(){
 	        return(
 	            <div className="content">
 	            	{this.props.currentTab === 0 ?
 	            	<div className="text">
-	                    <TextQuestion/>
+	                    <TextQuestion ref="text"/>
 	                </div>
 	                :null}
 
 	                {this.props.currentTab === 1 ?
-	                <div className="mike">
-	                    <img src="http://s.mlkshk.com/r/104TN" />
+	                <div className="image">
+	                    <ImageQuestion ref="image"/>
 	                </div>
 	                :null}
 
 	                {this.props.currentTab === 2 ?
-	                <div className="donnie">
-	                    <img src="http://s.mlkshk.com/r/103AG" />
+	                <div className="tagimage">
+	                    <TaggedImageUpload ref="tagimage"/>
 	                </div>
 	                :null}
 
 	                {this.props.currentTab === 3 ?
-	                <div className="raph">
-	                    <img src="http://s.mlkshk.com/r/JAUD" />
+	                <div className="video">
+	                    <VideoQuestion ref="video" />
 	                </div>
 	                :null}
 	            
@@ -106,6 +150,8 @@
 		    return {value: ''};
 		},
 		handleChange: function(event) {
+			console.log("event is");
+			console.log(event);
 			this.setState({value: event.target.value});
 		},
 		render: function() {
@@ -120,7 +166,7 @@
 	    	);
   		}
 	});
-	var List = React.createClass({
+	var TextList = React.createClass({
 	  	render: function() {
 	  		var self = this;
 	  		console.log(this.props);
@@ -146,11 +192,14 @@
       			items: []
     		};
   		},
+  		refresh: function(){
+  			this.setState(this.getInitialState());
+  		},
 
 	  	render: function() {
 	    	return (
 	    		<div>
-	    			<List onDeleteItem={this.onDeleteItem}>{this.state.items}</List>
+	    			<TextList onDeleteItem={this.onDeleteItem}>{this.state.items}</TextList>
 	    			<input id="option" placeholder="Enter an answer choice" ref="new_item"/>
 	    			<button id="addopt" type="button" onClick={this.onAddClicked}></button>
 	    		</div>
@@ -159,7 +208,6 @@
 
 	  	onAddClicked: function() {
 	    	var newItems = this.state.items.slice();
-	    	console.log(this.state.items);
 	    	newItems.push(ReactDOM.findDOMNode(this.refs.new_item).value);
 	    	this.setState({items: newItems});
 	  	},
@@ -173,12 +221,337 @@
 	  	}
 	});
 
-	
+	var ImageList = React.createClass({
+	  	render: function() {
+	  		var self = this;
+	  		console.log(this.props);
+	    	return (
+	    	 	<ul id="options">{ this.props.children.map(function(child, index){
+                    return (
+                    	<li key={index} id="option">
+	                    	<b>Answer Choice {index+1}: </b>
+	                    	<div id="myDiv">
+    							<img src={child} />
+							</div>
+	                    	<button id="deleteopt" onClick={self.props.onDeleteItem.bind(null, index)}></button>
+                    	</li>
+                    )
+
+                    }) }
+                        
+                </ul>
+	    	);
+	  	}
+	});
+
+	var ImageQuestion = React.createClass({
+  		getInitialState: function() {
+    		return {
+      			items: []
+    		};
+  		},
+
+  		refresh: function(){
+  			this.setState(this.getInitialState());
+  		},
+
+	  	render: function() {
+	    	return (
+	    		<div>
+	    			<ImageList onDeleteItem={this.onDeleteItem}>{this.state.items}</ImageList>
+	    			<ImageUploadIns ref="new_item"/>
+	    			<button id="addopt_image" type="button" onClick={this.onAddClicked}></button>
+	    		</div>
+	    	);
+	  	},
+
+	  	onAddClicked: function() {
+	    	var newItems = this.state.items.slice();
+	    	var imagePreviewURL = this.refs.new_item.state.imagePreview;
+	    	newItems.push(imagePreviewURL);
+	    	this.setState({items: newItems});
+	    	this.refs.new_item.refresh();
+	  	},
+
+	  	onDeleteItem: function(index) {
+	    	var newItems = this.state.items.slice();
+	    	console.log("This item about to be removed")
+	    	console.log(newItems[index]);
+	    	newItems.splice(index, 1);
+	    	this.setState({items: newItems});
+	  	}
+	});
+
+	var ImageUploadIns = React.createClass({
+		getInitialState: function(){
+	        return { imagePreview: "../../../static/images/ImageUploadButton.png" };
+	    },
+
+	    refresh: function(){
+	    	this.setState(this.getInitialState());
+	    },
+
+	    handleSubmit: function(){
+	    	console.log("Submit called");
+	    },
+
+	    handleImageChange: function(e){
+	    	self = this;
+	    	console.log("Image Changed!");
+	    	var file = e.target.files[0];
+	    	var reader = new FileReader();
+	    	reader.onload = function(e) {
+    			//console.log(e.target.result);
+    			self.setState({imagePreview: e.target.result});
+  			};
+	    	reader.readAsDataURL(file);
+	    },
+
+		render: function(){
+			var imagePreview = (
+				<div id="myDiv">
+    				<img src={this.state.imagePreview} />
+				</div>);
+			return (
+				<div id="previewComponent">
+			        <form onSubmit={this.handleSubmit()}>
+			        	<label id="myLabel">
+			        		{imagePreview}
+			        		<input ref="fileinput" id="fileinput" type="file" onChange={this.handleImageChange}></input>
+			        	</label>
+			        </form>
+		      	</div>
+			)
+		}
+	})
+
+	var ImageTagList= React.createClass({
+	  	render: function() {
+	  		var self = this;
+	  		
+	  		var taggedImage= (
+	  			<div id="taggedImage">
+	  				<img src={this.state.imagePreview}/>
+	  			</div>
+	  		);
+
+	    	return (
+	    	 	<ul id="options">{ this.props.children.map(function(child, index){
+                    return (
+                    	<li key={index} id="option">
+	                    	<b>Answer Choice {index+1}: </b>
+	                    	<div id="myDiv">
+    							<img src={child} />
+							</div>
+	                    	<button id="deleteopt" onClick={self.props.onDeleteItem.bind(null, index)}></button>
+                    	</li>
+                    )
+
+                    }) }
+                        
+                </ul>
+	    	);
+	  	}
+	});
+
+	var ImageTagQuestion = React.createClass({
+  		getInitialState: function() {
+    		return {
+      			items: []
+    		};
+  		},
+
+	  	render: function() {
+	    	return (
+	    		<div>
+	    			<ImageList onDeleteItem={this.onDeleteItem}>{this.state.items}</ImageList>
+	    			<ImageUploadIns ref="new_item"/>
+	    			<button id="addopt_image" type="button" onClick={this.onAddClicked}></button>
+	    		</div>
+	    	);
+	  	},
+
+	  	onAddClicked: function() {
+	    	var newItems = this.state.items.slice();
+	    	var imagePreviewURL = this.refs.new_item.state.imagePreview;
+	    	newItems.push(imagePreviewURL);
+	    	this.setState({items: newItems});
+	    	this.refs.new_item.refresh();
+	  	},
+
+	  	onDeleteItem: function(index) {
+	    	var newItems = this.state.items.slice();
+	    	console.log("This item about to be removed");
+	    	console.log(newItems[index]);
+	    	newItems.splice(index, 1);
+	    	this.setState({items: newItems});
+	  	}
+	});
+
+	var TaggedImageUpload = React.createClass({
+		getInitialState: function(){
+	        return { 
+	        	imagePreview: "../../../static/images/ImageUploadButton.png",
+	        	uploaded: false,
+	        	items: []
+	        	};
+	    },
+
+	    refresh: function(){
+	    	this.setState(this.getInitialState());
+	    },
+
+	    handleSubmit: function(){
+	    	console.log("Submit called");
+	    },
+
+	    handleImageChange: function(e){
+	    	self = this;
+	    	console.log("Image Changed!");
+	    	var file = e.target.files[0];
+	    	var reader = new FileReader();
+	    	reader.onload = function(e) {
+    			//console.log(e.target.result);
+    			self.setState({imagePreview: e.target.result, uploaded: true});
+  			};
+	    	reader.readAsDataURL(file);
+	    },
+
+	    onClick: function(e){
+	    	console.log(e.nativeEvent.offsetX);
+	    	console.log(e.nativeEvent.offsetY);
+	    	var top = (e.nativeEvent.offsetY-25).toString();
+	    	var left = (e.nativeEvent.offsetX-25).toString();
+	    	var newItem = {
+					width:"50px",
+				    height:"50px",
+				    top:top,
+    				left:left
+			};
+			//var newItem= (<div id='rectangle' style={rectStyle}>Hello</div>);
+	    	var newItems = this.state.items.slice();
+	    	newItems.push(newItem);
+	    	this.setState({items: newItems});
+	    },
+
+		render: function(){
+			var imagePreview;
+			var content;
+			if(this.state.uploaded){
+				imagePreview = (
+					<div id="taggedImage" onClick={this.onClick}>
+	    				<img src={this.state.imagePreview}/>
+	    				{this.state.items.map(function(tag, index){
+		                    return (
+		                    	<div id="rectangle" style={tag}/>
+		                    )}
+		                )}
+					</div>
+				);
+				content = (
+					<div id="tagImageComponent">
+						<form onSubmit={this.handleSubmit()}>
+							{imagePreview}<br/>
+							<label id="tagImageUploadedLabel">
+								<div id="fileUploadChange" />
+								<input ref="fileinput" id="fileinput" type="file" onChange={this.handleImageChange}></input>
+							</label>
+						</form>
+					</div>
+				);
+			}
+			else{
+				imagePreview = (
+					<div id="taggedImage">
+	    				<img src={this.state.imagePreview} />
+					</div>
+				)
+				content = (
+					<div id="tagImageComponent">
+						<form onSubmit={this.handleSubmit()}>
+							<label id="tagImageLabel">
+								{imagePreview}
+								<input ref="fileinput" id="fileinput" type="file" onChange={this.handleImageChange}></input>
+							</label>
+						</form>
+					</div>
+				);
+
+			}
+			console.log(content);
+			return (
+				<div id="temp">
+					{content}
+				</div>
+			);
+		}
+	})
+
+	var VideoList = React.createClass({
+	  	render: function() {
+	  		var self = this;
+	  		console.log(this.props);
+	    	return (
+	    	 	<ul id="options">{ this.props.children.map(function(child, index){
+                    return (
+                    	<li key={index} id="option">
+	                    	<b>Answer Choice {index+1}: </b>
+	                    	<div id="myDiv">
+    							<iframe width="420" height="315"
+    								src={child.replace("watch?v=", "v/")}>
+    							</iframe>
+							</div>
+	                    	<button id="videodeleteopt" onClick={self.props.onDeleteItem.bind(null, index)}></button>
+                    	</li>
+                    )
+
+                    }) }
+                        
+                </ul>
+	    	);
+	  	}
+	});
+	var VideoQuestion = React.createClass({
+  		getInitialState: function() {
+    		return {
+      			items: []
+    		};
+  		},
+
+		refresh: function(){
+  			this.setState(this.getInitialState());
+  		},
+  		
+	  	render: function() {
+	    	return (
+	    		<div>
+	    			<VideoList onDeleteItem={this.onDeleteItem}>{this.state.items}</VideoList>
+	    			<input id="option" placeholder="Enter a video link" ref="new_item"/>
+	    			<button id="addopt" type="button" onClick={this.onAddClicked}></button>
+	    		</div>
+	    	);
+	  	},
+
+	  	onAddClicked: function() {
+	    	var newItems = this.state.items.slice();
+	    	newItems.push(ReactDOM.findDOMNode(this.refs.new_item).value);
+	    	this.setState({items: newItems});
+	  	},
+
+	  	onDeleteItem: function(index) {
+	    	var newItems = this.state.items.slice();
+	    	console.log("This item about to be removed")
+	    	console.log(newItems[index]);
+	    	newItems.splice(index, 1);
+	    	this.setState({items: newItems});
+	  	}
+	});
+
 
 	// Render the menu component on the page, and pass an array with menu options
 
 	ReactDOM.render(
-	    <MenuExample items={ ['TEXT', 'IMAGE', 'IMAGE TAGGING', 'VIDEO', 'CALENDAR', 'MAP'] } />,
+	    <Questions />,
 	    document.body
 	);
 
