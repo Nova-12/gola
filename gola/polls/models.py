@@ -10,23 +10,16 @@ import json
 client = MongoClient(settings.PYMONGO_DATABASE_URI)
 db = client[settings.PYMONGO_DATABASE_NAME]
 
-class BaseMongoObject(object):
-    """
-    Generic Mongodb object model.
-    """
-    def _attr_dict(self, attr_names):
-        d = {}
-        for name in attr_names:
-            if name in dir(self):
-                d[name] = self.__getattribute__(name)
-        return d
-
 class Poll:
+
+    def __init__(self, poll_id, content):
+        self.poll_id = poll_id
+        self.content = content
 
     @staticmethod
     def create(data):
         object_id = db.poll.insert_one(data).inserted_id
-        return str(object_id)
+        return Poll(str(object_id), data)
 
     @staticmethod
     def get(poll_id):
@@ -35,10 +28,10 @@ class Poll:
         except InvalidId:
             return None
 
-        poll = db.poll.find_one({"_id": object_id})
-        if not poll:
+        document = db.poll.find_one({"_id": object_id})
+        if not document:
             return None
 
-        poll.pop("_id", None) # remove ObjectId which is not json serializable.
-        return poll
+        document.pop("_id", None) # remove ObjectId which is not json serializable.
+        return Poll(poll_id, document)
 
