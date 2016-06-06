@@ -18,6 +18,23 @@ class Poll:
 
     @staticmethod
     def create(data):
+        """
+        poll input example:
+        { "title": "customer satisfaction survey",
+          "noti_email": "aaa@bbb.com",
+          "noti_count": 7,
+          "questions": [...] }
+
+        question example:
+        { "options": [...] }
+        """
+
+        # Initialize counts
+        for question in data['questions']:
+            for option in question['options']:
+                option['count'] = 0
+
+        # Insert into DB
         object_id = db.poll.insert_one(data).inserted_id
         return Poll(str(object_id), data)
 
@@ -35,3 +52,24 @@ class Poll:
         document.pop("_id", None) # remove ObjectId which is not json serializable.
         return Poll(poll_id, document)
 
+    def vote(self, answers):
+        """
+        input example:
+        [ {"questionIdx": 0, "choice": [0,3]},
+          {"questionIdx": 1, "choice": [1]} ]
+        """
+        def incr_one(questionIdx, optionIdx):
+            question = self.content['questions'][questionIdx]
+            choice = question['options'][optionIdx]
+            choice['count'] = choice.get('count',0) + 1
+
+        # Increment counts
+        for answer in answers:
+            questionIdx = int(answer['questionIdx'])
+            for choice in answer['choice']:
+                optionIdx = int(choice)
+                incr_one(questionIdx, optionIdx)
+
+        # Update DB
+        query = {'$set': {'questions': self.content['questions']}}
+        db.poll.update_one({"_id": ObjectId(self.poll_id)}, query)

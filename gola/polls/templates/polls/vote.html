@@ -2,4 +2,24 @@
 
 {% block content %}
 <h2>Vote</h2>
+
+<button id="vote">Answer</button>
+<script type="text/javascript">
+var poll_id = "{{ poll_id }}";
+function vote() {
+    var answer = [
+        {questionIdx: 0, choice:[0,1]}
+    ];
+    $.ajax({
+        type: 'POST',
+        url: '/vote/' + poll_id + '/',
+        data: JSON.stringify(answer)
+    }).done(function(data){
+        alert(data);
+    });
+}
+$(document).ready(function() {
+    $("#vote").click(vote);
+});
+</script>
 {% endblock %}

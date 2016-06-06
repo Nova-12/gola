@@ -47,6 +47,7 @@ def get(request, poll_id):
         raise Http404("Poll does not exist")
     return HttpResponse(json.dumps(poll.content))
 
+@csrf_exempt
 @require_http_methods(["GET", "POST"])
 def vote(request, poll_id):
     poll = Poll.get(poll_id)
@@ -54,14 +55,15 @@ def vote(request, poll_id):
         raise Http404("Poll does not exist")
 
     if request.method == 'POST':
-        print request.body
-        return None
+        j = decode_or_die(request.body)
+        poll.vote(j)
+        return HttpResponse("ok")
     else:
-        return render(request, 'polls/vote.html')
+        return render(request, 'polls/vote.html', {"poll_id":poll.poll_id})
 
 @require_http_methods(["GET"])
 def result(request, poll_id):
     poll = Poll.get(poll_id)
     if not poll:
         raise Http404("Poll does not exist")
-    return render(request, 'polls/result.html')
+    return render(request, 'polls/result.html', {"poll_id":poll.poll_id})
