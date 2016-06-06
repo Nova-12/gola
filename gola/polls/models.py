@@ -33,6 +33,7 @@ class Poll:
         for question in data['questions']:
             for option in question['options']:
                 option['count'] = 0
+        data['vote_count'] = 0
 
         # Insert into DB
         object_id = db.poll.insert_one(data).inserted_id
@@ -73,3 +74,17 @@ class Poll:
         # Update DB
         query = {'$set': {'questions': self.content['questions']}}
         db.poll.update_one({"_id": ObjectId(self.poll_id)}, query)
+
+        # Increment vote count
+        self.content['vote_count'] += 1
+
+        # Update DB
+        query = {'$inc': {'vote_count': 1}}
+        db.poll.update_one({"_id": ObjectId(self.poll_id)}, query)
+
+    def noti_needed(self):
+        vote_count = self.content['vote_count']
+        noti_count = self.content['noti_count']
+        if vote_count == noti_count:
+            return True
+        return False

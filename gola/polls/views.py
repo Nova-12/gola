@@ -8,6 +8,7 @@ from django.views.decorators.http import require_http_methods
 import json
 
 from .models import Poll
+from .noti import send_mail
 
 @require_http_methods(["GET"])
 def index(request):
@@ -57,6 +58,11 @@ def vote(request, poll_id):
     if request.method == 'POST':
         j = decode_or_die(request.body)
         poll.vote(j)
+        if poll.noti_needed():
+            recipient = poll.content['noti_email']
+            uri = reverse('polls.result', args=[poll.poll_id])
+            link = request.build_absolute_uri(uri)
+            send_mail(recipient, link)
         return HttpResponse("ok")
     else:
         return render(request, 'polls/vote.html', {"poll_id":poll.poll_id})

@@ -9,3 +9,9 @@ ALLOWED_HOSTS = []
 # PyMongo database connection
 PYMONGO_DATABASE_URI = 'mongodb://localhost:27017/'
 PYMONGO_DATABASE_NAME = 'gola'
+
+# Email notification settings
+EMAIL_SMTP_ADDRESS = 'smtp.gmail.com'
+EMAIL_SMTP_PORT = 587
+EMAIL_NOTI_ADDRESS = 'user@domain.com'
+EMAIL_NOTI_PASSWORD = 'p4ssw0rd'
