@@ -17,22 +17,45 @@
     <div id="content"></div>
     <script type="text/babel">
 
+    var qListJSON = {
+    	"questions": []
+    };
+
+    var qJSON = {
+    	"type": "",
+    	"question": "",
+    	"options": []
+    };
+
+
     var Questions = React.createClass({
     	getInitialState: function(){
     		return{ questions: []};
     	},
+
     	addQuestion: function(){
     		console.log("Question added");
     		var newQuestions = this.state.questions.slice();
-	    	console.log(this.refs.newQuestion);
+    		newQuestions.push(this.refs.newQuestion.submit());
+	    	console.log(newQuestions);
 	    	this.setState({questions: newQuestions});
 	    	this.refs.newQuestion.refresh();
     	},
+
+    	finish: function(){
+    		console.log("Question Finish");
+    		var qListJSON = {
+    			"questions": this.state.questions
+    		}
+    		console.log(qListJSON);
+    	},
+
     	render: function(){
     		return (
     			<div>
     				<MenuExample ref="newQuestion" items={ ['TEXT', 'IMAGE', 'IMAGE TAGGING', 'VIDEO', 'CALENDAR', 'MAP'] } />
-    				<button onClick={this.addQuestion}>Next Question</button>
+    				<button className="NextQuestionBtn" onClick={this.addQuestion}></button>
+    				<button className="CompleteBtn" onClick={this.finish}></button>
     			</div>
     		);
     	}
@@ -47,6 +70,20 @@
 	    refresh: function(){
 	    	this.setState(this.getInitialState());
 	    	this.refs.content.refresh();
+	    },
+
+	    submit: function(){
+	    	var menulist = ["text", "image", "imagetag", "video"];
+	    	console.log("multiple checked value");
+	    	return (
+	    		{
+	    			"multiple": this.refs.multipleCheck.checked,
+	    			"type": menulist[this.state.focused],
+	    			"question": this.refs.questioninput.state.value,
+	    			"imgsrc": this.refs.content.submit().imgsrc,
+	    			"options": this.refs.content.submit().options
+	    		}
+	    	);
 	    },
 
 	    clicked: function(index){
@@ -70,7 +107,7 @@
 	        return (
 	            <div>
 	            	<font size="4" color="#002b80">{self.state.focused}.</font>
-	            	<QuestionInput/>
+	            	<QuestionInput ref="questioninput"/>
 	                <ul id="questiontabs">{ this.props.items.map(function(m, index){
 	        
 	                    var style = '';
@@ -87,7 +124,13 @@
 	                }) }
 	                        
 	                </ul>
-	                <br/><br/><Content ref="content" currentTab={this.state.focused}/>
+	                <br/><br/>
+	                <div className="multipleAnswer"><b>Multiple Answer</b></div>
+	                <label className="switch">
+						<input type="checkbox" ref="multipleCheck"/>
+						<div className="slider round"></div>
+					</label><br/><br/>
+					<Content ref="content" currentTab={this.state.focused}/>
 	            </div>
 	        );
 	    }
@@ -109,6 +152,20 @@
 			        break;
 			}
 		},
+
+		submit: function(){
+			switch(this.props.currentTab) {
+			    case 0:
+			        return(this.refs.text.submit());
+			    case 1:
+			        return(this.refs.image.submit());
+			    case 2:
+			        return(this.refs.tagimage.submit());
+			    case 3:
+			        return(this.refs.video.submit());
+			}
+		},
+
 	    render: function(){
 	        return(
 	            <div className="content">
@@ -196,6 +253,14 @@
   			this.setState(this.getInitialState());
   		},
 
+  		submit: function(){
+  			console.log("TextQuestion submit called");
+  			console.log(this.state.items);
+  			return {
+  				"options": this.state.items
+  			};
+  		},
+
 	  	render: function() {
 	    	return (
 	    		<div>
@@ -253,6 +318,14 @@
 
   		refresh: function(){
   			this.setState(this.getInitialState());
+  		},
+
+  		submit: function(){
+  			console.log("ImageQuestion submit called");
+  			console.log(this.state.items);
+  			return {
+  				"options": this.state.items
+  			};
   		},
 
 	  	render: function() {
@@ -323,7 +396,7 @@
 		      	</div>
 			)
 		}
-	})
+	});
 
 	var ImageTagList= React.createClass({
 	  	render: function() {
@@ -401,6 +474,15 @@
 	    	this.setState(this.getInitialState());
 	    },
 
+  		submit: function(){
+  			console.log("TextQuestion submit called");
+  			console.log(this.state.items);
+  			return {
+  				"imgsrc": this.state.imagePreview,
+  				"options": this.state.items
+  			};
+  		},
+
 	    handleSubmit: function(){
 	    	console.log("Submit called");
 	    },
@@ -425,8 +507,8 @@
 	    	var newItem = {
 					width:"50px",
 				    height:"50px",
-				    top:top,
-    				left:left
+				    top:top+"px",
+    				left:left+"px"
 			};
 			//var newItem= (<div id='rectangle' style={rectStyle}>Hello</div>);
 	    	var newItems = this.state.items.slice();
@@ -511,6 +593,7 @@
 	    	);
 	  	}
 	});
+
 	var VideoQuestion = React.createClass({
   		getInitialState: function() {
     		return {
@@ -521,7 +604,15 @@
 		refresh: function(){
   			this.setState(this.getInitialState());
   		},
-  		
+
+  		submit: function(){
+  			console.log("TextQuestion submit called");
+  			console.log(this.state.items);
+  			return {
+  				"options": this.state.items
+  			};
+  		},
+
 	  	render: function() {
 	    	return (
 	    		<div>

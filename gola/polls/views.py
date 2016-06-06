@@ -65,3 +65,8 @@ def question(request):
 	#return render(request, 'question/questions.html')
     #return render(request, 'polls/question/question.html')
 	return render(request, 'polls/question/index.html')
+
+def answer(request):
+    #return render(request, 'question/questions.html')
+    #return render(request, 'polls/question/question.html')
+    return render(request, 'polls/question/answer.html')

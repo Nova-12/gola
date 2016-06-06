@@ -124,6 +124,7 @@ input[id="tagImagefileinput"]{
   box-shadow: 
     0 0 0 10px hsl(0, 0%, 50%),
 }
+
 #rectangle:hover{
   outline: none;
   border: 4px solid grey;

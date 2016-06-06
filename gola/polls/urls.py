@@ -10,4 +10,5 @@ urlpatterns = [
     url(r'^finalize/{}/$'.format(POLL_ID_REGEX), views.finalize, name='polls.finish'),
     url(r'^get/{}/$'.format(POLL_ID_REGEX), views.get, name='polls.get'),
     url(r'^question/', views.question, name='question.questions'),
+    url(r'^answer/', views.answer, name='question.answer'),
 ]

@@ -1,0 +1,151 @@
+ul[id=questionList]{
+    list-style:none;
+    display: inline-block;
+    align-items: center;
+    vertical-align: middle;
+}
+
+li[id=questionItem]{
+    padding: 10px 40px;
+    margin: 40px 200px;
+}
+
+ul[id=optionList]{
+    list-style:none;
+    display: inline-block;
+    align-items: center;
+    vertical-align: middle;
+}
+li[id=text]{
+	text-align: left;
+	width: 635px;
+	padding-top: 10px;
+    border: 2px solid #e6ecff;
+}
+
+li[id=image]{
+	text-align: left;
+	width: 635px;
+	padding-top: 10px;
+    border: 2px dotted #e6ecff;
+}
+
+li[id=video]{
+	text-align: left;
+	width: 635px;
+	padding-top: 10px;
+    border: 2px dotted #e6ecff;
+}
+
+
+.quizContainer{
+	text-align: center;
+}
+
+.SubmitBtn {
+    background-image: url('../images/Submit.png');
+    background-size: 150px 37px;
+    height: 37px;
+    width: 150px;
+    border: 0;
+    margin-top: -100px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.SubmitBtn:hover {
+    background-image: url('../images/Submit_hover.png');
+}
+
+.SubmitBtn:focus {
+    outline: none;
+}
+
+.questionIntro{
+	text-align: left;
+	color: #002b80;
+	border-bottom: 4px solid #002b80;
+	margin-bottom: 15px;
+	font-family: "Gill Sans Extrabold", Helvetica, sans-serif;
+	font-size: 20px;
+}
+
+.textContainer{
+	margin-bottom: 10px;
+	display: inline-block;
+	font-family: "Arial";
+	color: black;
+}
+
+.choiceContainer{
+	display: inline-block;
+	margin-left: 20px;
+}
+
+
+.imageContainer{
+    display:inline-block;
+    height:200px;
+    width:400px;
+}
+.imageContainer img
+{
+    width:auto; 
+    max-height:100%;
+    margin:auto;
+    display:block;
+}
+
+.videoContainer{
+    display:inline-block;
+}
+
+.taggedImage {
+    display:inline-block;
+    z-index: 1;
+    position: relative;
+}
+
+.taggedImage img {
+    height: auto; 
+    width: auto; 
+    max-height: 580px;
+    margin:auto;
+    display:block;
+    position: relative;
+    z-index: 0;
+}
+
+.rectTag{
+  outline: 2px solid black;
+  border: 2px solid white;
+  position: absolute;
+  cursor: pointer;
+  z-index: 1;
+  box-shadow: 
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.rectTag:before{
+  outline: 2px solid black;
+  border: 2px solid white;
+  position: absolute;
+  cursor: pointer;
+  z-index: 1;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.rectTag:hover{
+  outline: none;
+  border: 4px solid grey;
+  position: absolute;
+  z-index: 1;
+}
+
+input:checked + .choiceContainer .rectTag{
+  outline: none;
+  border: 4px solid red;
+}
+
