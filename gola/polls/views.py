@@ -40,6 +40,13 @@ def ready(request, poll_id):
     }
     return render(request, 'polls/ready.html', args)
 
+@require_http_methods(["GET"])
+def get(request, poll_id):
+    poll = Poll.get(poll_id)
+    if not poll:
+        raise Http404("Poll does not exist")
+    return HttpResponse(json.dumps(poll.content))
+
 @require_http_methods(["GET", "POST"])
 def vote(request, poll_id):
     poll = Poll.get(poll_id)
@@ -50,11 +57,11 @@ def vote(request, poll_id):
         print request.body
         return None
     else:
-        return render(request, 'polls/vote.html', {'poll': json.dumps(poll.content)})
+        return render(request, 'polls/vote.html')
 
 @require_http_methods(["GET"])
 def result(request, poll_id):
     poll = Poll.get(poll_id)
     if not poll:
         raise Http404("Poll does not exist")
-    return render(request, 'polls/result.html', {'poll': json.dumps(poll.content)})
+    return render(request, 'polls/result.html')

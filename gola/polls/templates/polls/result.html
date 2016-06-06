@@ -1,10 +1,5 @@
 {% extends 'polls/base.html' %}
 
 {% block content %}
-<h2>Vote</h2>
-
-<script type="text/javascript">
-var poll = {{ poll|safe }};
-document.write(JSON.stringify(poll));
-</script>
+<h2>Result</h2>
 {% endblock %}
