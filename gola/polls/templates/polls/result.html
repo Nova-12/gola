@@ -1,0 +1,10 @@
+{% extends 'polls/base.html' %}
+
+{% block content %}
+<h2>Vote</h2>
+
+<script type="text/javascript">
+var poll = {{ poll|safe }};
+document.write(poll)
+</script>
+{% endblock %}

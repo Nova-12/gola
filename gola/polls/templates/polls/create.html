@@ -1,0 +1,36 @@
+{% extends 'polls/base.html' %}
+
+{% block content %}
+<h2>Create poll</h2>
+
+<button id="submit_poll">Submit poll</button>
+<p><a id="vote_link" href=""></a></p>
+<p><a id="result_link" href=""></a></p>
+
+<script type="text/javascript">
+function submit_poll() {
+    var poll = {
+        title: "aaa",
+        questions: [
+            {type:"text", text:"aaaaaaaa?", options:[
+                {text:"1111111"},
+                {text:"2222222"},
+                {text:"3333333"}
+            ]}
+        ],
+        noti_email:"aaa@b.com"
+    };
+    $.ajax({
+        type: "POST",
+        url: "/create/",
+        data: JSON.stringify(poll),
+    }).done(function(data) {
+        console.log(data);
+        location.href = data;
+    });
+}
+$(document).ready(function() {
+    $("#submit_poll").click(submit_poll);
+});
+</script>
+{% endblock %}
