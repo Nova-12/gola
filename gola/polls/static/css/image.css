@@ -1,0 +1,139 @@
+h3{
+  margin-left: 15px;
+}
+
+input[id=fileInput]{
+  border-bottom: 4px solid lightgray;
+  border-right: 4px solid lightgray;
+  border-top: 1px solid black;
+  border-left: 1px solid black;
+  padding: 10px;
+  margin: 15px;
+  cursor: pointer;
+}
+
+
+img{
+    width: 100%;
+    height: 100%;
+}
+.previewText{
+  width: 100%;
+  margin-top: 20px;
+  }
+button[id=submitButton]{
+  padding: 12px;
+  margin-left: 10px;
+  background: white;
+  border: 4px solid lightgray;
+  border-radius: 15px;
+  font-weight: 700;
+  font-size: 10pt;
+  cursor: pointer;
+  &:hover
+    background: -webkit-linear-gradient(top, #f9f9f9, #e3e3e3);
+}
+
+img[id=imagePreview]{
+  content: url( '../images/ImageUploadButton.png');
+  width: 20%;
+  height: 20%;
+  cursor: pointer;
+}
+
+button[id=addopt_image] {
+    background-image: url( '../images/AddButton.png');
+    background-size: 20px 20px;
+    border: 0;
+    border-radius: 50%;
+    height: 20px;  
+    width: 20px;
+    margin-left: 150px;
+}
+
+button[id=addopt_image]:hover {
+    background-image: url( '../images/AddButton_hover.png');
+    background-size: 20px 20px;
+    border: 0;
+    border-radius: 50%;
+    height: 20px;  
+    width: 20px;
+    cursor: pointer;
+}
+button[id=addopt_image]:focus {
+    outline: none;
+}
+
+input[id="tagImagefileinput"]{
+}
+
+#taggedImageComponent {
+    display: inline-block;
+    padding-top: 100px;
+}
+
+#taggedImage {
+    display:inline-block;
+    cursor: crosshair;
+    z-index: 1;
+    position: relative;
+}
+#taggedImage img {
+    height: auto; 
+    width: auto; 
+    max-height: 580px;
+    margin:auto;
+    display:block;
+    position: relative;
+    z-index: 0;
+}
+#tagImageLabel {
+    height:580px;
+    width:800px;
+    display: inline-block;
+}
+
+#fileUploadChange {
+    background-image: url('../images/FileChange.png');
+    background-size: 150px 37px;
+    height: 37px;
+    width: 150px;
+    border: 0;
+    cursor: pointer;
+    display: inline-block;
+}
+
+#fileUploadChange:hover {
+    background-image: url('../images/FileChange_hover.png');
+}
+
+#fileUploadChange:focus {
+    outline: none;
+}
+
+#tagImageUploadedLabel {
+    height: 5px;
+    width: 20px;
+}
+
+#rectangle{
+  outline: 2px solid black;
+  border: 2px solid white;
+  position: absolute;
+  z-index: 1;
+  box-shadow: 
+    0 0 0 10px hsl(0, 0%, 50%),
+}
+
+#rectangle:hover{
+  outline: none;
+  border: 4px solid grey;
+  position: absolute;
+  z-index: 1;
+}
+
+#imageTag:{
+  position: absolute;
+  z-index: 1;
+}
+

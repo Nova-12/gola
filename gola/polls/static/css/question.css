@@ -1,0 +1,340 @@
+* {
+    padding:0;
+    margin:0;
+}
+
+html{
+    font:14px normal Arial, sans-serif;
+    color:#626771;
+    background-color:#fff;
+}
+
+body{
+    padding:60px;
+    text-align: center;
+}
+
+ul[id=questiontabs]{
+    list-style:none;
+    display: inline-block;
+}
+
+ul li[id=questiontab]{
+    display: inline-block;
+    padding: 10px 40px;
+    cursor:pointer;
+    background-color:#eee;
+    color:#7B8585;
+    
+    transition:0.3s;
+}
+
+ul li[id=questiontab]:hover{
+    background-color:#beecea;
+}
+
+ul li[id=questiontab].focused{
+    color:#fff;
+    background-color:#002266;
+}
+
+input[id=question] {
+    width: 70%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    border: none;
+    border-bottom: 4px solid #002b80;
+    font-size:20px;
+}
+
+input[id=question]:focus {
+    outline: none;
+}
+
+input[id=initPoll] {
+    padding: 12px 20px;
+    margin: 8px 0;
+    border: none;
+    border-bottom: 3px solid #002b80;
+    font-size:20px;
+}
+
+input[id=initPoll]:focus {
+    outline: none;
+}
+.initPoll{
+    display: inline-block;
+    text-align: left;
+    border: 4px solid #002b80;
+    padding: 40px;
+}
+.title {
+    width: 600px;
+}
+
+.email {
+    width: 300px;
+}
+
+.notiCount {
+    width: 50px;
+}
+
+.StartBtn {
+    background-image: url('../images/StartBtn.png');
+    background-size: 150px 37px;
+    height: 37px;
+    width: 150px;
+    border: 0;
+    cursor: pointer;
+    display: inline-block;
+    margin-top: 40px;
+}
+
+.StartBtn:hover {
+    background-image: url('../images/StartBtn_hover.png');
+}
+
+.StartBtn:focus {
+    outline: none;
+}
+p{
+    padding-top:15px;
+    font-size:12px;
+}
+
+button[id=deleteopt] {
+    background-image: url( '../images/DeleteButton.png');
+    background-size: 20px 20px;
+    border: 0;
+    border-radius: 50%;
+    height: 20px;  
+    width: 20px;
+    margin-left: 100px;
+    vertical-align: middle;
+}
+
+button[id=deleteopt]:hover {
+    background-image: url( '../images/DeleteButton_hover.png');
+    background-size: 20px 20px;
+    border: 0;
+    border-radius: 50%;
+    height: 20px;  
+    width: 20px;
+    cursor: pointer;
+}
+button[id=deleteopt]:focus {
+    outline: none;
+}
+
+button[id=addopt] {
+    background-image: url( '../images/AddButton.png');
+    background-size: 20px 20px;
+    border: 0;
+    border-radius: 50%;
+    height: 20px;  
+    width: 20px;
+    margin-left: 0px;
+}
+
+button[id=addopt]:hover {
+    background-image: url( '../images/AddButton_hover.png');
+    background-size: 20px 20px;
+    border: 0;
+    border-radius: 50%;
+    height: 20px;  
+    width: 20px;
+    cursor: pointer;
+}
+button[id=addopt]:focus {
+    outline: none;
+}
+
+input[id=option] {
+    width: 40%;
+    padding: 10px 18px;
+    margin: 8px 0;
+    border: none;
+    border-bottom: 2px solid #006699;
+    font-size:15px;
+}
+
+input[id=option]:focus {
+    border-bottom: 2px solid #003366;
+    outline: none;
+}
+
+ul[id=options]{
+    list-style:none;
+    display: block;
+    align-items: center;
+    list-style-position: inside;
+}
+
+ul li[id=option]{
+    display: inline-block;
+    width: 70%;
+    padding: 10px 40px;
+    background-color:#fff;
+    color:#000;
+    font-size: 15px;
+    text-align: left;
+}
+
+input[id="fileinput"]{
+    display: none;
+}
+
+#previewComponent 
+{
+    display: inline-block;
+    padding-top: 100px;
+}
+
+#myDiv 
+{
+    display:inline-block;
+    height:145px;
+    width:200px;
+}
+#myDiv img
+{
+    width:auto; 
+    max-height:100%;
+    margin:auto;
+    display:block;
+}
+#myLabel 
+{
+    height:145px;
+    width:200px;
+    display: inline-block;
+}
+
+button[id=videodeleteopt] {
+    background-image: url( '../images/DeleteButton.png');
+    background-size: 20px 20px;
+    border: 0;
+    border-radius: 50%;
+    height: 20px;  
+    width: 20px;
+    margin-left: 250px;
+    margin-bottom: 20px;
+    vertical-align: middle;
+}
+
+button[id=videodeleteopt]:hover {
+    background-image: url( '../images/DeleteButton_hover.png');
+    background-size: 20px 20px;
+    border: 0;
+    border-radius: 50%;
+    height: 20px;  
+    width: 20px;
+    cursor: pointer;
+}
+button[id=videodeleteopt]:focus {
+    outline: none;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  margin-left: 20px;
+  width: 40px;
+  height: 20px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {display:none;}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 15px;
+  width: 15px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(20px);
+  -ms-transform: translateX(20px);
+  transform: translateX(20px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.multipleAnswer{
+    display: inline-block;
+    font-size:17px;
+    color: #000;
+}
+
+.CompleteBtn {
+    background-image: url('../images/Complete.png');
+    background-size: 150px 37px;
+    height: 37px;
+    width: 150px;
+    border: 0;
+    cursor: pointer;
+    display: inline-block;
+    margin-top: 100px;
+}
+
+.CompleteBtn:hover {
+    background-image: url('../images/Complete_hover.png');
+}
+
+.CompleteBtn:focus {
+    outline: none;
+}
+
+.NextQuestionBtn {
+    background-image: url('../images/NextQuestion.png');
+    background-size: 150px 37px;
+    height: 37px;
+    width: 150px;
+    border: 0;
+    cursor: pointer;
+    display: inline-block;
+    margin-top: 100px;
+}
+
+.NextQuestionBtn:hover {
+    background-image: url('../images/NextQuestion_hover.png');
+}
+
+.NextQuestionBtn:focus {
+    outline: none;
+}
