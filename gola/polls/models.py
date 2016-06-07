@@ -88,3 +88,18 @@ class Poll:
         if vote_count == noti_count:
             return True
         return False
+
+    def result_dump(self):
+        counts = []
+        for question in self.content['questions']:
+            answers = []
+            for option in question['options']:
+                answers.append({'total': option['count']})
+            counts.append({'answers': answers})
+
+        result = {
+            'pollID': self.poll_id,
+            'participantNum': self.content['vote_count'],
+            'results': counts
+        }
+        return result

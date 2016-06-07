@@ -10,4 +10,5 @@ urlpatterns = [
     url(r'^get/{}/$'.format(POLL_ID_REGEX), views.get, name='polls.get'),
     url(r'^vote/{}/$'.format(POLL_ID_REGEX), views.vote, name='polls.vote'),
     url(r'^result/{}/$'.format(POLL_ID_REGEX), views.result, name='polls.result'),
+    url(r'^result_data/{}/$'.format(POLL_ID_REGEX), views.result_data, name='polls.result_data'),
 ]

@@ -73,3 +73,10 @@ def result(request, poll_id):
     if not poll:
         raise Http404("Poll does not exist")
     return render(request, 'polls/result.html', {"poll_id":poll.poll_id})
+
+@require_http_methods(["GET"])
+def result_data(request, poll_id):
+    poll = Poll.get(poll_id)
+    if not poll:
+        raise Http404("Poll does not exist")
+    return HttpResponse(json.dumps(poll.result_dump()))
