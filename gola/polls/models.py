@@ -31,8 +31,8 @@ class Poll:
 
         # Initialize counts
         for question in data['questions']:
-            for option in question['options']:
-                option['count'] = 0
+            votes = [0] * len(question['options'])
+            question['votes'] = votes
         data['vote_count'] = 0
 
         # Insert into DB
@@ -61,12 +61,11 @@ class Poll:
         """
         def incr_one(questionIdx, optionIdx):
             question = self.content['questions'][questionIdx]
-            choice = question['options'][optionIdx]
-            choice['count'] = choice.get('count',0) + 1
+            question['votes'][optionIdx] += 1
 
         # Increment counts
         for answer in answers:
-            questionIdx = int(answer['questionIdx'])
+            questionIdx = int(answer['questionIndex'])
             for choice in answer['choice']:
                 optionIdx = int(choice)
                 incr_one(questionIdx, optionIdx)
@@ -93,8 +92,8 @@ class Poll:
         counts = []
         for question in self.content['questions']:
             answers = []
-            for option in question['options']:
-                answers.append({'total': option['count']})
+            for vote in question['votes']:
+                answers.append({'total': vote}) 
             counts.append({'answers': answers})
 
         result = {

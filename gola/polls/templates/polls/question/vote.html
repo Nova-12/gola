@@ -1,4 +1,4 @@
-<!-- result.html -->
+<!-- vote.html -->
 <!DOCTYPE html>
 <html>
   <head>
@@ -9,15 +9,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="http://www.w3schools.com/lib/w3.css"></link>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
     {% load staticfiles %}
-	<link rel="stylesheet" type="text/css" href="{% static "css/result.css" %}"></link>
+	<link rel="stylesheet" type="text/css" href="{% static "css/answer.css" %}"></link>
   </head>
   <body>
     <div id="content"></div>
     <script type="text/babel">
-        var resultJSON = {{ result_data|safe }};
-        var pollJSON = {{ poll_data|safe }};
+    	var poll_id = "{{ poll_id }}";
+    	var qListJSON = {{ poll_data|safe }};
+    	
+
 		var QuestionList = React.createClass({
 		  	render: function() {
 		  		var self = this;
@@ -41,8 +43,6 @@
 		var Question = React.createClass({
 			getInitialState: function() {
 				var questionList = this.props.questions.questions;
-				var resultList = this.props.results.results;
-				var partipantNum = this.props.results.participantNum;
 				var answerList= [];
 				for(var i=0; i < questionList.length; i++){
 					var answer = {};
@@ -55,9 +55,7 @@
 				console.log(answerList);
 		    	return {
 		    		questions: questionList,
-		    		user_choice: answerList,
-		    		results: resultList,
-		    		participantNum: partipantNum
+		    		user_choice: answerList
 		    	};
 			},
 			selectedAnswer: function( option ) {
@@ -90,64 +88,28 @@
 				this.setState( { user_choice: answerList });
 			},
 
-			export: function(){
-                console.log("export called");
-				console.log(this.state.results);
-                var arrData = this.state.results;
-                var CSV = '';
-                
-                CSV += this.props.questions.title + '\r\n\n';
-
-                var row = "Question#,Answer Choice#,TotalCount";
-                
-                CSV += row + '\r\n';
-                
-                //1st loop is to extract each row
-                for (var i = 0; i < arrData.length; i++) {
-                    var inum = i+1;
-                    var row = '"'+ inum + '",';
-                    for (var j = 0; j< arrData[i].answers.length; j++){
-                        var jnum = j+1;
-                        row += '"'+ jnum + '",' + '"' + arrData[i].answers[j].total + '"';
-                        CSV += row + '\r\n';
-                        row = '"",';
-                    }
-                }
-                //Generate a file name
-                var fileName = "Result";
-                
-                var uri = 'data:text/csv;charset=utf-8,' + escape(CSV);
-                
-                var link = document.createElement("a");
-                link.href = uri;
-                
-                //set the visibility hidden so it will not effect on your web-layout
-                link.style = "visibility:hidden";
-                link.download = fileName + ".csv";
-                
-                //this part will append the anchor tag and remove it after automatic click
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
+			submit: function(){
+				$.ajax({
+					type: "POST",
+				    url: "/vote/"+poll_id+"/",
+				    data: JSON.stringify(this.state.user_choice),
+				}).done(function(data) {
+				    console.log(data);
+				    location.href = "/submitted/";
+				});
+				console.log(this.state.user_choice);
 			},
 
 			render: function() {
-				
+				console.log("question list:");
+				console.log(this.props.questions.questions);
 				var style = {"display" : "none"};
 				var self = this;
 				var title = (
 					<div className="title"><b>{this.props.questions.title}</b></div>
 				);
-                var participantNum = (
-                    <div className="infoContainer">
-                        <div className="participantNum">
-                            <b>Number of Respondents: {this.state.participantNum}</b>
-                        </div>
-                    </div>
-                );
 				var questions = (
-					<ul id="questionList" ref="questionList"> 
-                        <li key="participantNum"> {participantNum}</li>{
+					<ul id="questionList" ref="questionList"> {
 						this.state.questions.map(
 							function(question, q_index) {
 								if (question.type == "imagetag"){
@@ -155,11 +117,11 @@
 										<li key={q_index} id="questionItem" name="questionItem">
 											<div className="questionIntro"><b>Q{q_index+1}.</b> {question.question}</div>
 					    					<div className="taggedImage">
-							    				<img src={question.imgsrc}/><br/>
+							    				<img src={question.imgsrc}/>
 							    				{question.options.map(function(option, o_index){
 								                    return (
 								                    	<li key={o_index} id={question.type}  name="optionItem">
-								                    		<AnswerChoice type={question.type} option={option} questionIndex={q_index} index={o_index} onChoiceSelect={self.selectedAnswer} multiple={question.multiple} resultStat={self.state.results[q_index].answers[o_index].total} participantNum={self.state.participantNum}/>
+								                    		<AnswerChoice type={question.type} option={option} questionIndex={q_index} index={o_index} onChoiceSelect={self.selectedAnswer} multiple={question.multiple} />
 								                    	</li>
 								                    )}
 								                )}
@@ -176,7 +138,7 @@
 						    							function(option, o_index){
 				                    						return (
 				                    							<li key={o_index} id={question.type}  name="optionItem">
-					                    							<AnswerChoice type={question.type} option={option} questionIndex={q_index} index={o_index} onChoiceSelect={self.selectedAnswer} multiple={question.multiple} resultStat={self.state.results[q_index].answers[o_index].total} participantNum={self.state.participantNum}/>
+					                    							<AnswerChoice type={question.type} option={option} questionIndex={q_index} index={o_index} onChoiceSelect={self.selectedAnswer} multiple={question.multiple} />
 				                    							</li>
 				                    						)
 
@@ -195,9 +157,9 @@
 
 				return(
 					<div className="quizContainer">
-						{title}<br/>
-						{questions}<br/><br/><br/><br/>
-                        <button className="ExportBtn" onClick={this.export}></button>
+						{title}<br/><br/>
+						{questions}<br/>
+						<button className="SubmitBtn" onClick={this.submit}></button>
 						<br/><br/><br/><br/><br/><br/><br/><br/><br/>
 					</div>
 				);
@@ -205,32 +167,41 @@
 		} );
 
 		var AnswerChoice = React.createClass( {
-			getInitialState: function() {
-				return {
+			handleClick: function() {
+				this.props.onChoiceSelect({
 					questionIndex: this.props.questionIndex,
 					optionIndex: this.props.index,
-					resultStat: this.props.resultStat,
-					participantNum: this.props.participantNum
-				};
+					checked: this.refs.option.checked
+				});
+			},
+
+			check: function(){
+				return(this.refs.option.checked());
 			},
 
 			render: function() {
-				var percentage = parseInt((this.state.resultStat/this.state.participantNum)*100).toString();
-				console.log(percentage);
-				var barStyle = {"width": "550px", "display": "inline-block"};
-				var barStat = {"width": percentage+"%"};
-				var boxStyle = {"background-color":"#007a99"};
-
+				if (this.props.type == "imagetag"){
+					var style = {
+						"display" : "none"
+					}
+					if (this.props.multiple){
+						var choiceinput = (<input ref="option" type="checkbox" id={this.props.index} name={this.props.questionIndex} onChange={this.handleClick} style={style}/>);
+					}
+					else{
+						var choiceinput = (<input ref='option' type="radio" id={this.props.index} name={this.props.questionIndex} onChange={this.handleClick} style={style} />);
+					}
+				}
+				else {
+					if (this.props.multiple){
+						var choiceinput = (<input ref="option" type="checkbox" id={this.props.index} name={this.props.questionIndex} onChange={this.handleClick} />);
+					}
+					else{
+						var choiceinput = (<input ref='option' type="radio" id={this.props.index} name={this.props.questionIndex} onChange={this.handleClick} />);
+					}
+				}
 				return (
 					<label>
-						<span className="resultStat" id={this.props.type}>
-							<div className="resultNum" style={boxStyle}>{this.state.resultStat}/{this.state.participantNum}</div>
-							<div className="w3-progress-container" style={barStyle}>
-								  <div id="myBar" className="w3-progressbar w3-cyan" style={barStat}>
-								  	<div className="w3-center w3-text-black"><b>{percentage}%</b></div>
-								  </div>
-							</div>
-						</span>
+						{choiceinput}
 						<ChoiceContainer type={this.props.type} content={this.props.option} imgsrc={this.props.imgsrc}/>
 					</label>
 				);
@@ -274,10 +245,10 @@
 					</div>
 				);
 			}
-		});
+		})
 
 		ReactDOM.render(
-			<Question questions={pollJSON} results={resultJSON}/>,
+			<Question questions={qListJSON}/>,
 			document.body
 		);
 

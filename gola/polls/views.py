@@ -12,7 +12,7 @@ from .noti import send_mail
 
 @require_http_methods(["GET"])
 def index(request):
-    return render(request, 'polls/question/index.html', {})
+    return render(request, 'polls/index.html', {})
 
 def decode_or_die(body):
     try:
@@ -29,7 +29,7 @@ def create(request):
         poll = Poll.create(j)
         return HttpResponse(reverse('polls.ready', args=[poll.poll_id]))
     else:
-        return render(request, 'polls/question/question.html')
+        return render(request, 'polls/question/create.html')
 
 @require_http_methods(["GET"])
 def ready(request, poll_id):
@@ -40,13 +40,6 @@ def ready(request, poll_id):
         "result_link": result_link
     }
     return render(request, 'polls/ready.html', args)
-
-@require_http_methods(["GET"])
-def get(request, poll_id):
-    poll = Poll.get(poll_id)
-    if not poll:
-        raise Http404("Poll does not exist")
-    return HttpResponse(json.dumps(poll.content))
 
 @csrf_exempt
 @require_http_methods(["GET", "POST"])
@@ -65,18 +58,16 @@ def vote(request, poll_id):
             send_mail(recipient, link)
         return HttpResponse("ok")
     else:
-        return render(request, 'polls/vote.html', {"poll_id":poll.poll_id})
+        return render(request, 'polls/question/vote.html', {"poll_id":poll.poll_id, "poll_data":json.dumps(poll.content)})
 
 @require_http_methods(["GET"])
 def result(request, poll_id):
     poll = Poll.get(poll_id)
     if not poll:
         raise Http404("Poll does not exist")
-    return render(request, 'polls/result.html', {"poll_id":poll.poll_id})
+    return render(request, 'polls/question/result.html', {"poll_id":poll.poll_id, "poll_data":json.dumps(poll.content), "result_data":json.dumps(poll.result_dump())})
+
 
 @require_http_methods(["GET"])
-def result_data(request, poll_id):
-    poll = Poll.get(poll_id)
-    if not poll:
-        raise Http404("Poll does not exist")
-    return HttpResponse(json.dumps(poll.result_dump()))
+def submitted(request):
+    return render(request, 'polls/submitted.html')

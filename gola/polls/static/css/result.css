@@ -5,6 +5,18 @@
 	margin-top: 50px;
 }
 
+.infoContainer{
+  text-align: left;
+}
+
+.participantNum{
+  display: inline-block;
+  border-radius: 4px;
+  background: #00BCD5;
+  text-align: left;
+  padding: 10px 20px 10px 20px;
+}
+
 ul[id=questionList]{
     list-style:none;
     display: inline-block;
@@ -48,8 +60,8 @@ li[id=video]{
 	text-align: center;
 }
 
-.SubmitBtn {
-    background-image: url('../images/Submit.png');
+.ExportBtn {
+    background-image: url('../images/Export.png');
     background-size: 150px 37px;
     height: 37px;
     width: 150px;
@@ -59,11 +71,11 @@ li[id=video]{
     display: inline-block;
 }
 
-.SubmitBtn:hover {
-    background-image: url('../images/Submit_hover.png');
+.ExportBtn:hover {
+    background-image: url('../images/Export_hover.png');
 }
 
-.SubmitBtn:focus {
+.ExportBtn:focus {
     outline: none;
 }
 
@@ -159,6 +171,26 @@ li[id=video]{
   position: relative;
   bottom: 7px;
 }
+
+span[id=imagetag]{
+  display: block;
+  width: 550px;
+  height: 22.5px;
+  position: absolute;
+}
+
+span[id=imagetag] .w3-progress-container{
+  position: relative;
+  top: -26px;
+  z-index: -1;
+}
+
+span[id=imagetag] .resultNum {
+  bottom: 3px;
+  right: 295px;
+}
+
+
 span[id=imagetag]:hover{
   transition: .1s; 
 }

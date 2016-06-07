@@ -22,6 +22,7 @@ ul[id=optionList]{
     align-items: center;
     vertical-align: middle;
 }
+
 li[id=text]{
 	text-align: left;
 	width: 635px;
