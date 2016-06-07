@@ -13,7 +13,7 @@ ul[id=questionList]{
 }
 
 li[id=questionItem]{
-	padding-top: 50px;
+    padding-top: 50px;
 }
 
 ul[id=optionList]{
@@ -26,7 +26,7 @@ li[id=text]{
 	text-align: left;
 	width: 635px;
 	padding-top: 10px;
-    border: 2px solid #e6ecff;
+  border: 2px solid #e6ecff;
 }
 
 li[id=image]{
@@ -126,7 +126,6 @@ li[id=video]{
   outline: 2px solid black;
   border: 2px solid white;
   position: absolute;
-  cursor: pointer;
   z-index: 1;
   box-shadow: 
   -webkit-transition: .4s;
@@ -137,7 +136,6 @@ li[id=video]{
   outline: 2px solid black;
   border: 2px solid white;
   position: absolute;
-  cursor: pointer;
   z-index: 1;
   -webkit-transition: .4s;
   transition: .4s;
@@ -150,8 +148,26 @@ li[id=video]{
   z-index: 1;
 }
 
-input:checked + .choiceContainer .rectTag{
+.resultNum {
+  display: inline-block;
+  height: 23px;
+  width: 40px;
+  text-align: center;
+  line-height: 23px;
+  font-size: 12px;
+  margin-right: 0px;
+  position: relative;
+  bottom: 7px;
+}
+span[id=imagetag]:hover{
+  transition: .1s; 
+}
+
+span[id=imagetag]:hover{
+  outline: 2px solid #ff8080;
+}
+
+span[id=imagetag]:hover + .choiceContainer .rectTag{
   outline: none;
   border: 4px solid red;
 }
-

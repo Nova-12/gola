@@ -11,4 +11,5 @@ urlpatterns = [
     url(r'^get/{}/$'.format(POLL_ID_REGEX), views.get, name='polls.get'),
     url(r'^question/', views.question, name='question.questions'),
     url(r'^answer/', views.answer, name='question.answer'),
+    url(r'^result/', views.result, name='question.result')
 ]

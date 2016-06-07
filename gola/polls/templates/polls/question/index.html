@@ -30,7 +30,13 @@
 
     var Questions = React.createClass({
     	getInitialState: function(){
-    		return{ questions: []};
+    		return{ 
+    			initialized: false,
+    			title: "",
+    			noti_email: "",
+    			noti_count: "",
+    			questions: []
+    		};
     	},
 
     	addQuestion: function(){
@@ -44,22 +50,89 @@
 
     	finish: function(){
     		console.log("Question Finish");
+    		this.addQuestion();
     		var qListJSON = {
-    			"questions": this.state.questions
-    		}
+    			"questions": this.state.questions,
+    			"title": this.state.title,
+    			"noti_email": this.state.noti_email,
+    			"noti_count": parseInt(this.state.noti_count)
+    		};
     		console.log(qListJSON);
     	},
 
+    	startQuestion: function(){
+    		console.log("Initialized!");
+    		this.setState({
+    			initialized: true,
+    			title: this.refs.initPoll.refs.title.value,
+    			noti_email: this.refs.initPoll.refs.email.value,
+    			noti_count: this.refs.initPoll.refs.notiCount.value
+    		});
+    	},
+
     	render: function(){
-    		return (
-    			<div>
-    				<MenuExample ref="newQuestion" items={ ['TEXT', 'IMAGE', 'IMAGE TAGGING', 'VIDEO', 'CALENDAR', 'MAP'] } />
-    				<button className="NextQuestionBtn" onClick={this.addQuestion}></button>
-    				<button className="CompleteBtn" onClick={this.finish}></button>
-    			</div>
-    		);
+    		var self = this;
+    		if (self.state.initialized){
+	    		return (
+	    			<div>
+	    				<MenuExample ref="newQuestion" questionNumber={self.state.questions.length} items={ ['TEXT', 'IMAGE', 'IMAGE TAGGING', 'VIDEO', 'CALENDAR', 'MAP'] } />
+	    				<button className="NextQuestionBtn" onClick={this.addQuestion}></button>
+	    				<button className="CompleteBtn" onClick={this.finish}></button>
+	    			</div>
+	    		);
+	    	}
+	    	else{
+	    		return (
+	    			<div>
+	    				<InitPollWrapper ref="initPoll"/>
+	    				<br/>
+	    				<button className="StartBtn" onClick={this.startQuestion}></button>
+	    			</div>
+	    		);
+	    	}
     	}
     });
+	var QuestionInput = React.createClass({
+		getInitialState: function() {
+		    return {value: ''};
+		},
+		handleChange: function(event) {
+			console.log("event is");
+			console.log(event);
+			this.setState({value: event.target.value});
+		},
+		render: function() {
+			return (
+	   			<input
+			        type="text"
+			        id="question"
+			        placeholder="Enter the question"
+			        value={this.state.value}
+			        onChange={this.handleChange}
+	      		/>
+	    	);
+  		}
+	});
+
+	var InitPollWrapper = React.createClass({
+		getInitialState: function() {
+			return {
+				title: "",
+				noti_email: "",
+				noti_count: ""
+			};
+		},
+
+		render: function() {
+			return(
+				<div className="initPoll">
+					<font size="4" color="#002b80"><b>Poll Title: </b></font><input type="text" id="initPoll" className="title" ref="title"/><br/>
+					<font size="4" color="#002b80"><b>Your Email Address: </b></font><input type="text" id="initPoll" className="email" ref="email"/><br/>
+					<font size="4" color="#002b80"><b>Number of particpants before notification: </b></font><input type="number" id="initPoll" className="notiCount" ref="notiCount"/>
+				</div>
+			);
+		}
+	});
 
 	var MenuExample = React.createClass({
 
@@ -106,7 +179,7 @@
 
 	        return (
 	            <div>
-	            	<font size="4" color="#002b80">{self.state.focused}.</font>
+	            	<font size="4" color="#002b80">{self.props.questionNumber}.</font>
 	            	<QuestionInput ref="questioninput"/>
 	                <ul id="questiontabs">{ this.props.items.map(function(m, index){
 	        
@@ -125,7 +198,7 @@
 	                        
 	                </ul>
 	                <br/><br/>
-	                <div className="multipleAnswer"><b>Multiple Answer</b></div>
+	                <div className="multipleAnswer"><b>Allow Multiple Answer</b></div>
 	                <label className="switch">
 						<input type="checkbox" ref="multipleCheck"/>
 						<div className="slider round"></div>
@@ -201,27 +274,6 @@
 	            </div>
 	        );
 	    }
-	});
-	var QuestionInput = React.createClass({
-		getInitialState: function() {
-		    return {value: ''};
-		},
-		handleChange: function(event) {
-			console.log("event is");
-			console.log(event);
-			this.setState({value: event.target.value});
-		},
-		render: function() {
-			return (
-	   			<input
-			        type="text"
-			        id="question"
-			        placeholder="Enter the question"
-			        value={this.state.value}
-			        onChange={this.handleChange}
-	      		/>
-	    	);
-  		}
 	});
 	var TextList = React.createClass({
 	  	render: function() {

@@ -70,3 +70,8 @@ def answer(request):
     #return render(request, 'question/questions.html')
     #return render(request, 'polls/question/question.html')
     return render(request, 'polls/question/answer.html')
+
+def result(request):
+    #return render(request, 'question/questions.html')
+    #return render(request, 'polls/question/question.html')
+    return render(request, 'polls/question/result.html')

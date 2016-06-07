@@ -51,6 +51,53 @@ input[id=question]:focus {
     outline: none;
 }
 
+input[id=initPoll] {
+    padding: 12px 20px;
+    margin: 8px 0;
+    border: none;
+    border-bottom: 3px solid #002b80;
+    font-size:20px;
+}
+
+input[id=initPoll]:focus {
+    outline: none;
+}
+.initPoll{
+    display: inline-block;
+    text-align: left;
+    border: 4px solid #002b80;
+    padding: 40px;
+}
+.title {
+    width: 600px;
+}
+
+.email {
+    width: 300px;
+}
+
+.notiCount {
+    width: 50px;
+}
+
+.StartBtn {
+    background-image: url('../images/StartBtn.png');
+    background-size: 150px 37px;
+    height: 37px;
+    width: 150px;
+    border: 0;
+    cursor: pointer;
+    display: inline-block;
+    margin-top: 40px;
+}
+
+.StartBtn:hover {
+    background-image: url('../images/StartBtn_hover.png');
+}
+
+.StartBtn:focus {
+    outline: none;
+}
 p{
     padding-top:15px;
     font-size:12px;
