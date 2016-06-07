@@ -22,6 +22,7 @@ var addMarkerBtn = document.getElementById("addMarkerBtn");
 addMarkerBtn.onclick = addMarker;
 
 function addMarker() {
+    var daummap = new daum.maps;
     var markerPosition = map.getCenter(),
         marker = new daum.maps.Marker({
             position: markerPosition
@@ -32,7 +33,7 @@ function addMarker() {
     marker.setDraggable(true);
     markers.push(marker);
     
-    daum.maps.event.addListener(marker, 'click', function() {
+    daummap.event.addListener(marker, 'click', function() {
         if (clickBit == 0) {
             marker.setImage(selectedMarkerImage);
             selectedMarkers.push(marker);

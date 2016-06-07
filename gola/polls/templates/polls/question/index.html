@@ -1,0 +1,16 @@
+{% load render_bundle from webpack_loader %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+    	<title>GOLA</title>
+      {% render_bundle 'main' 'css' %}
+    </head>
+    <body>
+    	<div id="content"></div>
+    	{% render_bundle 'main' 'js' %}
+      <script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=86d7704e14e565ba059896f409620abe&libraries=clusterer,services"></script>
+      {% load staticfiles %}
+      <link rel="stylesheet" href="{% static "css/map.css" %}"></link>
+    </body>	
+</html>
