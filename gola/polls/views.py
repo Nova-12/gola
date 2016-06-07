@@ -12,7 +12,7 @@ from .noti import send_mail
 
 @require_http_methods(["GET"])
 def index(request):
-    return render(request, 'polls/index.html', {})
+    return render(request, 'polls/question/index.html', {})
 
 def decode_or_die(body):
     try:
@@ -29,7 +29,7 @@ def create(request):
         poll = Poll.create(j)
         return HttpResponse(reverse('polls.ready', args=[poll.poll_id]))
     else:
-        return render(request, 'polls/create.html')
+        return render(request, 'polls/question/question.html')
 
 @require_http_methods(["GET"])
 def ready(request, poll_id):
