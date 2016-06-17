@@ -24,6 +24,7 @@ workon gola
 ## Setting up webpack
 
 ```
+cd gola
 npm init
 npm install
 ```
@@ -44,6 +45,7 @@ Then add settings to `local.py`.
 
 ```
 cd gola
+./node_modules/.bin/webpack --config webpack.config.js
 ./manage.py runserver 0.0.0.0:8000
 ```
 
