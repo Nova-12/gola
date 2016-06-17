@@ -23,6 +23,7 @@ workon gola
 
 ## Setting up webpack
 
+In the base directory:
 ```
 cd gola
 npm init
@@ -34,15 +35,18 @@ npm install
 If you need to add machine-dependent settings like db password,
 DO NOT modify `base.py` directly. Instead,
 
+In the base directory:
 ```
 cd gola/gola/settings
 cp local.py.template local.py
 ```
 
 Then add settings to `local.py`.
+You need to modify PyMongo database information & email notification address and password.
 
 ## Run
 
+In the base directory:
 ```
 cd gola
 ./node_modules/.bin/webpack --config webpack.config.js
