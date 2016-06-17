@@ -1,6 +1,6 @@
 .map-wrapper, .map-wrapper * {margin:0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
 .map-wrapper a, .map-wrapper a:hover, .map-wrapper a:active{color:#000;text-decoration: none;}
-.map-wrapper {position:relative;width:800px;height:500px; margin-left: 90px;}
+.map-wrapper {position:relative;width:800px;height:500px; display: inline-block;}
 #map {position:relative;width:800px;height:500px; float:left;}
 #menu_wrap {position:absolute;top:0;left:0;bottom:0;width:250px;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.7);z-index: 1;font-size:12px;border-radius: 10px;}
 .bg_white {background:#fff;}

@@ -44,6 +44,12 @@ li[id=video]{
     border: 2px dotted #e6ecff;
 }
 
+li[id=calendar]{
+	text-align: left;
+	width: 635px;
+	padding-top: 10px;
+    border: 2px solid #e6ecff;
+}
 
 .quizContainer{
 	text-align: center;

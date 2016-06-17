@@ -1,6 +1,12 @@
 {% extends 'polls/base.html' %}
 
 {% block content %}
-<p><a href="{{ vote_link }}">{{ vote_link }}</a></p>
-<p><a href="{{ result_link }}">{{ result_link }}</a></p>
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static "css/ready.css" %}"></link>
+<div class="ready_div">
+    <p id="ready_link">Vote Page Link: </p><br />
+    <p><a href="{{ vote_link }}">{{ vote_link }}</a></p>
+    <p id="ready_link">Result Page Link: </p><br />
+    <p><a href="{{ result_link }}">{{ result_link }}</a></p>
+</div>
 {% endblock %}

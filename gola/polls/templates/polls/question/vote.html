@@ -10,8 +10,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
     <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=86d7704e14e565ba059896f409620abe&libraries=clusterer,services"></script>
     {% load staticfiles %}
 	<link rel="stylesheet" type="text/css" href="{% static "css/answer.css" %}"></link>
+	<link rel="stylesheet" href="{% static "css/mapAnswer.css" %}"></link>
   </head>
   <body>
     <div id="content"></div>
@@ -89,6 +91,15 @@
 			},
 
 			submit: function(){
+				var qs = this.state.questions;
+				for(var i = 0; i < qs.length; i++){
+					if (qs[i].type == 'map'){
+						console.log("MAP CHOICE: ", this.refs.mapAnswer);
+
+						this.state.user_choice[i].choice = this.refs.mapAnswer.state.selectedTitles;
+						console.log("USER CHOICE: ", this.state.user_choice);
+					}
+				}
 				$.ajax({
 					type: "POST",
 				    url: "/vote/"+poll_id+"/",
@@ -101,8 +112,6 @@
 			},
 
 			render: function() {
-				console.log("question list:");
-				console.log(this.props.questions.questions);
 				var style = {"display" : "none"};
 				var self = this;
 				var title = (
@@ -112,6 +121,7 @@
 					<ul id="questionList" ref="questionList"> {
 						this.state.questions.map(
 							function(question, q_index) {
+								console.log("QUESTION TYPE: ", question.type);
 								if (question.type == "imagetag"){
 									return (
 										<li key={q_index} id="questionItem" name="questionItem">
@@ -129,6 +139,23 @@
 										</li>
 									)
 								}
+								else if (question.type == "map") {
+									return (
+										<li key={q_index} id="questionItem" name="questionItem">
+											<div className="questionIntro"><b>Q{q_index+1}.</b> {question.question}</div>
+											<div className="mapQuestion">
+												<MapAnswer ref="mapAnswer" style={question.options}/>
+												{question.options.map(function(option, o_index){
+								                    return (
+								                    	<li key={o_index} id={question.type}  name="optionItem">
+								                    		<AnswerChoice type={question.type} option={option} questionIndex={q_index} index={o_index} onChoiceSelect={self.selectedAnswer} multiple={question.multiple} />
+								                    	</li>
+								                    )}
+								                )}
+							                </div>
+										</li>
+									)
+								}	
 								else{
 				    				return (
 					    				<li key={q_index} id="questionItem" name="questionItem">
@@ -180,7 +207,7 @@
 			},
 
 			render: function() {
-				if (this.props.type == "imagetag"){
+				if ((this.props.type == "imagetag") || (this.props.type == "map")) {
 					var style = {
 						"display" : "none"
 					}
@@ -227,6 +254,7 @@
 			        );
 			        break;
 			    case "imagetag":
+			    	console.log("IMAGE TAG CONTENT: ", this.props.content);
 			        choiceContent = (
 			        	<div className="rectTag" style={this.props.content}/>
 			        );
@@ -238,6 +266,21 @@
 			    		</div>
 			    	);
 			        break;
+			    case "calendar":
+			    	console.log(this.props.content);
+			    	choiceContent = (
+			    		<div className="calendarContainer">
+			    			{this.props.content}
+			    		</div>
+			    	);
+			    	break;
+			    case "map":
+			    	console.log("MAP CONTENT: ", this.props.content);
+			    	choiceContent = (
+			    		<div className="mapContainer" style={this.props.content}>
+			    		</div>
+			    	);
+			    	break;
 			}
 				return(
 					<div className="choiceContainer">
@@ -246,6 +289,94 @@
 				);
 			}
 		})
+
+		var infowindow = new daum.maps.InfoWindow({zIndex:1});
+		var MapAnswer = React.createClass({
+			getInitialState: function() {
+				return {
+					map: "",
+					markers: [],
+					selectedMarkers: [],
+					selectedTitles: [],
+					items: []
+				};
+			},
+			componentDidMount: function() {
+				var mapContainer = this.refs.map;
+				var m_center = this.props.style[0][0];
+				console.log("M_CENTER: ", m_center);
+				var mapOption = {
+					center: new daum.maps.LatLng(m_center.bb, m_center.ab),
+					level: 3
+				};
+				var map = new daum.maps.Map(mapContainer, mapOption);
+				this.state.map = map;
+
+				var imageSrc = 'http://bit.sparcs.org/~chocho/selectedMarker.png',
+					imageSize = new daum.maps.Size(39, 54),
+		   			imageOption = {offset: new daum.maps.Point(20, 45)};
+
+				var selectedMarkerImage = new daum.maps.MarkerImage(imageSrc, imageSize, imageOption);
+
+				for (var i = 0; i < this.props.style.length; i++) {
+					var markerPosition = new daum.maps.LatLng(this.props.style[i][0].bb, this.props.style[i][0].ab);
+					this.props.style[i][1] = i + ". " + this.props.style[i][1];
+					console.log("TITLE: ", this.props.style[i][1]);
+					var marker = new daum.maps.Marker({
+						position: markerPosition,
+						title: this.props.style[i][1]
+					});
+					var markerImage = marker.getImage();
+					console.log("GET TITLE: ", marker.getTitle());
+					var ctx = this.state;
+					daum.maps.event.addListener(marker, 'click', this.closure(marker, ctx, markerImage, selectedMarkerImage));
+					daum.maps.event.addListener(marker, 'mouseover', this.closure_mo(marker, ctx));
+					daum.maps.event.addListener(marker, 'mouseout', this.closure_mout());
+					this.state.markers.push(marker);
+					marker.setMap(map);
+					
+				}
+			},
+			
+			closure: function(marker, ctx, markerImage, selectedMarkerImage) {
+				return function() {
+					var idx = ctx.selectedMarkers.indexOf(marker);
+					if (idx == -1) {
+						console.log()
+						marker.setImage(selectedMarkerImage);
+						ctx.selectedMarkers.push(marker);
+						var n = parseInt(marker.getTitle().split(".")[0]);
+						ctx.selectedTitles.push(n);
+						console.log("SMARKERS: ", ctx.selectedMarkers);
+					}
+					else {
+						marker.setImage(markerImage);
+						ctx.selectedMarkers.splice(idx, 1);
+					}
+				}
+			},
+			closure_mo: function(marker, ctx) {
+				return function() {
+					infowindow.setContent(marker.getTitle());
+					infowindow.open(ctx.map, marker);
+				}
+			},
+			closure_mout: function() {
+				infowindow.close();
+			},
+			refresh: function() {
+				this.state = this.getInitialState();
+			},
+
+			render: function(){
+				return (
+					<div className="map-wrapper" style={this.state.selectedMarkers}>
+						<div id="map" ref="map"></div>
+					</div>
+				);
+
+			}
+		});
 
 		ReactDOM.render(
 			<Question questions={qListJSON}/>,

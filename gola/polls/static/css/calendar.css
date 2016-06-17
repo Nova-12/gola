@@ -1,0 +1,79 @@
+.calendar-wrapper {
+    margin-left: 170px;
+    margin-right: 170px;
+}
+
+div#calendar {
+	width: 45%;
+	float: left;
+}
+
+div#time {
+	margin-left: 45%;
+	vertical-align: middle;
+}
+
+#time1, #time3, #time5{
+	width: 10%;
+	vertical-align: middle;
+	float: left;
+	padding-top: 10px;
+	margin-bottom: 40px;
+}
+
+#time2, #time4 {
+	width: 35%;
+	vertical-align: middle;
+	float: left;
+}
+
+#addopt {
+	vertical-align: middle;
+}
+
+div#datetime-result {
+	margin-left: 45%;
+	height: 500px;
+}
+
+#calendaroption {
+	width: 95%;
+	padding: 10px 0px;
+}
+
+#calendaroptiontext1 {
+	float: left;
+	vertical-align: middle;
+}
+#calendaroptiontext2 {
+	float: left;
+	vertical-align: middle;
+	padding-top: 0px;
+	padding-left: 10px;
+	font-size: 15px;
+}
+
+button[id=calendardeleteopt] {
+    background-image: url( '../images/DeleteButton.png');
+    background-size: 20px 20px;
+    border: 0;
+    border-radius: 50%;
+    height: 20px;  
+    width: 20px;
+    margin-left: 10px;
+    vertical-align: middle;
+}
+
+button[id=calendardeleteopt]:hover {
+    background-image: url( '../images/DeleteButton_hover.png');
+    background-size: 20px 20px;
+    border: 0;
+    border-radius: 50%;
+    height: 20px;  
+    width: 20px;
+    cursor: pointer;
+    vertical-align: middle;
+}
+button[id=calendardeleteopt]:focus {
+    outline: none;
+}

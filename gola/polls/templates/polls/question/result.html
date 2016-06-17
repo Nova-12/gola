@@ -150,7 +150,7 @@
                         <li key="participantNum"> {participantNum}</li>{
 						this.state.questions.map(
 							function(question, q_index) {
-								if (question.type == "imagetag"){
+								if (question.type == "imagetag") {
 									return (
 										<li key={q_index} id="questionItem" name="questionItem">
 											<div className="questionIntro"><b>Q{q_index+1}.</b> {question.question}</div>
@@ -267,6 +267,20 @@
 			    		</div>
 			    	);
 			        break;
+			    case "calendar":
+			    	choiceContent = (
+			        	<div className="calendarContainer">
+			        		{this.props.content}
+			        	</div>
+			        );
+			        break;
+			    case "map":
+			        choiceContent = (
+			        	<div className="mapContainer">
+			        		{this.props.content[1]}
+			        	</div>
+			        );
+			        break;    
 			}
 				return(
 					<div className="choiceContainer">

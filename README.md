@@ -21,6 +21,13 @@ workon gola
 - Ubuntu: <https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/>
 - OS X: <https://docs.mongodb.com/v3.0/tutorial/install-mongodb-on-os-x/>
 
+## Setting up webpack
+
+```
+npm init
+npm install
+```
+
 ## Local settings
 
 If you need to add machine-dependent settings like db password,

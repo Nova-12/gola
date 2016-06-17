@@ -55,7 +55,10 @@ def vote(request, poll_id):
             recipient = poll.content['noti_email']
             uri = reverse('polls.result', args=[poll.poll_id])
             link = request.build_absolute_uri(uri)
-            send_mail(recipient, link)
+            try:
+                send_mail(recipient, link)
+            except:
+                return HttpResponse("ok no mail")
         return HttpResponse("ok")
     else:
         return render(request, 'polls/question/vote.html', {"poll_id":poll.poll_id, "poll_data":json.dumps(poll.content)})

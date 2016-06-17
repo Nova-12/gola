@@ -11,12 +11,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
     <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
     {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static "css/submitted.css" %}"></link>
   </head>
   <body>
     <div id="content"></div>
     <script type="text/babel">
       ReactDOM.render(
-        <div>Thank You for Participating</div>,
+      <div>
+        <h1 id="thanks">Thank you for your participation!</h1></div>,
         document.body
       );
     </script>

@@ -84,7 +84,7 @@ class Poll:
     def noti_needed(self):
         vote_count = self.content['vote_count']
         noti_count = self.content['noti_count']
-        if vote_count == noti_count:
+        if vote_count >= noti_count:
             return True
         return False
 
@@ -93,7 +93,7 @@ class Poll:
         for question in self.content['questions']:
             answers = []
             for vote in question['votes']:
-                answers.append({'total': vote}) 
+                answers.append({'total': vote})
             counts.append({'answers': answers})
 
         result = {

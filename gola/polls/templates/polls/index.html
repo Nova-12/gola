@@ -1,5 +1,12 @@
 {% extends 'polls/base.html' %}
-
 {% block content %}
-<a href="{% url 'polls.create' %}">Create poll</a>
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static "css/gola_index.css" %}"></link>
+<div class="wrapper">
+    <h1 class="index-title">GOLA</h1>
+    <h2 class="index-subtitle">Multimedia-Oriented Online Poll Service</h2>
+    <form action="/poll/">
+        <input class="index-button" type="submit" value="">
+    </form>
+</div>
 {% endblock %}

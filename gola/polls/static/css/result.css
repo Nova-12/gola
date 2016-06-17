@@ -38,7 +38,7 @@ li[id=text]{
 	text-align: left;
 	width: 635px;
 	padding-top: 10px;
-  border: 2px solid #e6ecff;
+    border: 2px solid #e6ecff;
 }
 
 li[id=image]{
@@ -55,6 +55,19 @@ li[id=video]{
     border: 2px dotted #e6ecff;
 }
 
+li[id=calendar]{
+	text-align: left;
+	width: 635px;
+	padding-top: 10px;
+    border: 2px solid #e6ecff;
+}
+
+li[id=map]{
+  text-align: left;
+  width: 635px;
+  padding-top: 10px;
+  border: 2px solid #e6ecff;
+}
 
 .quizContainer{
 	text-align: center;
@@ -116,6 +129,13 @@ li[id=video]{
 
 .videoContainer{
     display:inline-block;
+}
+
+.mapContainer{
+  margin-bottom: 10px;
+  display: inline-block;
+  font-family: "Arial";
+  color: black;
 }
 
 .taggedImage {

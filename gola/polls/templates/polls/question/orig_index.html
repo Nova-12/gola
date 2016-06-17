@@ -1,0 +1,189 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>GOLA</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
+    {% load staticfiles %}
+	<link rel="stylesheet" type="text/css" href="{% static "css/question.css" %}"></link>
+  </head>
+  <body>
+    <div id="content"></div>
+    <script type="text/babel">
+	var MenuExample = React.createClass({
+
+	    getInitialState: function(){
+	        return { focused: 0 };
+	    },
+
+	    clicked: function(index){
+
+	        // The click handler will update the state with
+	        // the index of the focused menu entry
+
+	        this.setState({focused: index});
+	    },
+
+	    render: function() {
+
+	        // Here we will read the items property, which was passed
+	        // as an attribute when the component was created
+
+	        var self = this;
+
+	        // The map method will loop over the array of menu entries,
+	        // and will return a new array with <li> elements.
+
+	        return (
+	            <div>
+	            	<font size="4" color="#002b80">{self.state.focused}.</font>
+	            	<QuestionInput/>
+	                <ul id="questiontabs">{ this.props.items.map(function(m, index){
+	        
+	                    var style = '';
+	        
+	                    if(self.state.focused == index){
+	                        style = 'focused';
+	                    }
+	        
+	                    // Notice the use of the bind() method. It makes the
+	                    // index available to the clicked function:
+	        
+	                    return <li key={index} id="questiontab" className={style} onClick={self.clicked.bind(self, index)}>{m}</li>;
+	        
+	                }) }
+	                        
+	                </ul>
+	                <br/><br/><Content currentTab={this.state.focused}/>
+	            </div>
+	        );
+	    }
+	});
+	var Content = React.createClass({
+	    render: function(){
+	        return(
+	            <div className="content">
+	            	{this.props.currentTab === 0 ?
+	            	<div className="text">
+	                    <TextQuestion/>
+	                </div>
+	                :null}
+
+	                {this.props.currentTab === 1 ?
+	                <div className="mike">
+	                    <img src="http://s.mlkshk.com/r/104TN" />
+	                </div>
+	                :null}
+
+	                {this.props.currentTab === 2 ?
+	                <div className="donnie">
+	                    <img src="http://s.mlkshk.com/r/103AG" />
+	                </div>
+	                :null}
+
+	                {this.props.currentTab === 3 ?
+	                <div className="raph">
+	                    <img src="http://s.mlkshk.com/r/JAUD" />
+	                </div>
+	                :null}
+	            
+	                {this.props.currentTab === 4 ?
+	                <div className="leo">
+	                    <img src="http://s.mlkshk.com/r/ZJPL" />
+	                </div>
+	                :null}
+	            </div>
+	        );
+	    }
+	});
+	var QuestionInput = React.createClass({
+		getInitialState: function() {
+		    return {value: ''};
+		},
+		handleChange: function(event) {
+			this.setState({value: event.target.value});
+		},
+		render: function() {
+			return (
+	   			<input
+			        type="text"
+			        id="question"
+			        placeholder="Enter the question"
+			        value={this.state.value}
+			        onChange={this.handleChange}
+	      		/>
+	    	);
+  		}
+	});
+	var List = React.createClass({
+	  	render: function() {
+	  		var self = this;
+	  		console.log(this.props);
+	    	return (
+	    	 	<ul id="options">{ this.props.children.map(function(child, index){
+                    return (
+                    	<li key={index} id="option">
+	                    	<b>Answer Choice {index+1}: </b>{child}
+	                    	<button id="deleteopt" onClick={self.props.onDeleteItem.bind(null, index)}></button>
+                    	</li>
+                    )
+
+                    }) }
+                        
+                </ul>
+	    	);
+	  	}
+	});
+
+	var TextQuestion = React.createClass({
+  		getInitialState: function() {
+    		return {
+      			items: []
+    		};
+  		},
+
+	  	render: function() {
+	    	return (
+	    		<div>
+	    			<List onDeleteItem={this.onDeleteItem}>{this.state.items}</List>
+	    			<input id="option" placeholder="Enter an answer choice" ref="new_item"/>
+	    			<button id="addopt" type="button" onClick={this.onAddClicked}></button>
+	    		</div>
+	    	);
+	  	},
+
+	  	onAddClicked: function() {
+	    	var newItems = this.state.items.slice();
+	    	console.log(this.state.items);
+	    	newItems.push(ReactDOM.findDOMNode(this.refs.new_item).value);
+	    	this.setState({items: newItems});
+	  	},
+
+	  	onDeleteItem: function(index) {
+	    	var newItems = this.state.items.slice();
+	    	console.log("This item about to be removed")
+	    	console.log(newItems[index]);
+	    	newItems.splice(index, 1);
+	    	this.setState({items: newItems});
+	  	}
+	});
+
+	
+
+	// Render the menu component on the page, and pass an array with menu options
+
+	ReactDOM.render(
+	    <MenuExample items={ ['TEXT', 'IMAGE', 'IMAGE TAGGING', 'VIDEO', 'CALENDAR', 'MAP'] } />,
+	    document.body
+	);
+
+      // To get started with this tutorial running your own code, simply remove
+      // the script tag loading scripts/example.js and start writing code here.
+    </script>
+  </body>
+</html>

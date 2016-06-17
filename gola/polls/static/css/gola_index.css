@@ -1,0 +1,24 @@
+.index-title {
+    font: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    height: 90px;
+    font-size: 200px;
+    text-align: center;
+}
+.index-subtitle {
+    font: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 30px;
+    text-align: center;
+    margin-bottom: 80px;
+}
+.index-button {
+    background-image: url('../images/CreatePollButton.png');
+    background-size: 200px;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    width: 200px;
+    height: 67px;
+    border: none;
+}
+.wrapper{
+    text-align: center;
+}
